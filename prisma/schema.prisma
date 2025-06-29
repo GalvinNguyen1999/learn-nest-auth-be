@@ -17,6 +17,8 @@ datasource db {
 model User {
   id        String   @id @default(uuid())
   email     String   @unique
-  password  String
+  password  String? // make optional for Google-auth users
+  name      String?
+  avatar    String? // avatar = Google profile picture URL
   createdAt DateTime @default(now())
 }
