@@ -12,7 +12,7 @@ import * as bcrypt from 'bcrypt';
 export class UserService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(data: CreateUserDtoInput) {
+  async createUser(data: CreateUserDtoInput) {
     const user = await this.prisma.user.findUnique({
       where: { email: data.email },
     });
@@ -37,7 +37,7 @@ export class UserService {
     };
   }
 
-  async update(data: UpdateUserDtoInput) {
+  async updateUser(data: UpdateUserDtoInput) {
     const user = await this.prisma.user.findUnique({
       where: { id: data.id },
     });
@@ -61,7 +61,7 @@ export class UserService {
     };
   }
 
-  async delete(data: DeleteUserDtoInput) {
+  async deleteUser(data: DeleteUserDtoInput) {
     const user = await this.prisma.user.findUnique({
       where: { id: data.id },
     });
@@ -80,7 +80,7 @@ export class UserService {
     };
   }
 
-  async get(data: GetUserDtoInput) {
+  async getUser(data: GetUserDtoInput) {
     const user = await this.prisma.user.findFirst({
       where: {
         OR: [

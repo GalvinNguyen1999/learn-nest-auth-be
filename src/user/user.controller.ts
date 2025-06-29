@@ -19,25 +19,25 @@ export class UserController {
   async register(
     @Body() input: CreateUserDtoInput,
   ): Promise<CreateUserDtoOutput> {
-    return this.userService.create(input);
+    return this.userService.createUser(input);
   }
 
   @Get('get')
   async get(@Body() input: GetUserDtoInput): Promise<GetUserDtoOutput> {
-    return this.userService.get(input);
+    return this.userService.getUser(input);
   }
 
   @Put('update')
   async update(
     @Body() input: UpdateUserDtoInput,
   ): Promise<UpdateUserDtoOutput> {
-    return this.userService.update(input);
+    return this.userService.updateUser(input);
   }
 
   @Delete('delete')
   async delete(
     @Body() input: DeleteUserDtoInput,
   ): Promise<DeleteUserDtoOutput> {
-    return this.userService.delete(input);
+    return this.userService.deleteUser(input);
   }
 }
