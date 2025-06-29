@@ -16,8 +16,11 @@ export class AuthService {
       });
 
       // Kiểm tra password
-      const isPasswordValid = await bcrypt.compare(password, user.data.password);
-      
+      const isPasswordValid = await bcrypt.compare(
+        password,
+        user.data.password,
+      );
+
       if (!isPasswordValid) {
         throw new UnauthorizedException({
           statusCode: HttpStatus.UNAUTHORIZED,
