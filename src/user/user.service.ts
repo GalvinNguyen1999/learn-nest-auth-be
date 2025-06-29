@@ -1,20 +1,103 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpStatus, HttpException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateUserDto } from './dto/create-user.dto';
+import {
+  CreateUserDtoInput,
+  DeleteUserDtoInput,
+  GetUserDtoInput,
+  UpdateUserDtoInput,
+} from './dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(data: CreateUserDto) {
-    return this.prisma.user.upsert({
+  async create(data: CreateUserDtoInput) {
+    const user = await this.prisma.user.findUnique({
       where: { email: data.email },
-      update: { name: data.name, avatar: data.avatar },
-      create: {
+    });
+
+    if (!!user) {
+      throw new HttpException('User already exists', HttpStatus.FOUND);
+    }
+
+    const newUser = await this.prisma.user.create({
+      data: {
         email: data.email,
+        name: data.name,
+        avatar: data.avatar,
+        password: await bcrypt.hash(data.password, 10),
+      },
+    });
+
+    return {
+      statusCode: HttpStatus.CREATED,
+      message: 'User created successfully',
+      data: newUser,
+    };
+  }
+
+  async update(data: UpdateUserDtoInput) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: data.id },
+    });
+
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    const updatedUser = await this.prisma.user.update({
+      where: { id: data.id },
+      data: {
         name: data.name,
         avatar: data.avatar,
       },
     });
+
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'User updated successfully',
+      data: updatedUser,
+    };
+  }
+
+  async delete(data: DeleteUserDtoInput) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: data.id },
+    });
+
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    await this.prisma.user.delete({
+      where: { id: data.id },
+    });
+
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'User deleted successfully',
+    };
+  }
+
+  async get(data: GetUserDtoInput) {
+    const user = await this.prisma.user.findFirst({
+      where: {
+        OR: [
+          { id: data.id },
+          { email: data.email },
+        ],
+      },
+    });
+
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'User fetched successfully',
+      data: user,
+    };
   }
 }

@@ -1,10 +1,10 @@
 import { User } from '@prisma/client';
-import { IsEmail, IsNotEmpty, IsOptional } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsUUID } from 'class-validator';
 
-export class CreateUserDtoInput {
-  @IsEmail()
+export class UpdateUserDtoInput {
+  @IsUUID()
   @IsNotEmpty()
-  email: string;
+  id: string;
 
   @IsOptional()
   name: string;
@@ -16,7 +16,7 @@ export class CreateUserDtoInput {
   avatar: string;
 }
 
-export class CreateUserDtoOutput {
+export class UpdateUserDtoOutput {
   @IsNotEmpty()
   statusCode: number;
 
