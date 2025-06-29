@@ -4061,7 +4061,7 @@ pretty-format@^29.0.0, pretty-format@^29.7.0:
 
 prisma@^6.10.1:
   version "6.10.1"
-  resolved "https://registry.npmjs.org/prisma/-/prisma-6.10.1.tgz"
+  resolved "https://registry.yarnpkg.com/prisma/-/prisma-6.10.1.tgz#2864034879c492359684193720e9e4b4a0bd20c9"
   integrity sha512-khhlC/G49E4+uyA3T3H5PRBut486HD2bDqE2+rvkU0pwk9IAqGFacLFUyIx9Uw+W2eCtf6XGwsp+/strUwMNPw==
   dependencies:
     "@prisma/config" "6.10.1"
