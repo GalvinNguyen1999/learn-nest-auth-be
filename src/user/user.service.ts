@@ -81,12 +81,11 @@ export class UserService {
   }
 
   async getUser(data: GetUserDtoInput) {
+    const { id, email } = data;
+
     const user = await this.prisma.user.findFirst({
       where: {
-        OR: [
-          { id: data.id },
-          { email: data.email },
-        ],
+        OR: [...(id ? [{ id }] : []), ...(email ? [{ email }] : [])],
       },
     });
 

@@ -4,11 +4,11 @@ import { IsEmail, IsNotEmpty, IsOptional, IsUUID } from 'class-validator';
 export class GetUserDtoInput {
   @IsUUID()
   @IsOptional()
-  id: string;
+  id?: string;
 
   @IsEmail()
   @IsOptional()
-  email: string;
+  email?: string;
 }
 
 export class GetUserDtoOutput {
